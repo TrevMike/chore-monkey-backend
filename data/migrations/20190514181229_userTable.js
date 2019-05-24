@@ -7,6 +7,9 @@ exports.up = function(knex, Promise) {
       .unique();
     table.string("name", 255).notNullable();
     table
+      .string("uid", 32)
+      .unique()
+    table
       .string("profilePicture", 255)
       .defaultTo("https://i.imgur.com/M8kRKQC.png");
     table
