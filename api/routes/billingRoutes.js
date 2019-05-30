@@ -12,7 +12,7 @@ const postStripeCharge = res => (stripeErr, stripeRes) => {
 }
 
   router.get('/', (req, res) => {
-    res.send({ message: 'Hello Stripe checkout server!', timestamp: new Date().toISOString() })
+    res.send({ message: 'Hello Stripe checkout server!!', timestamp: new Date().toISOString() })
   });
 
   router.post('/', (req, res) => {
