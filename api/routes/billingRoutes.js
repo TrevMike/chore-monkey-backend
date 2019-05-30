@@ -1,21 +1,25 @@
 const express = require("express");
 const router = express.Router();
 
-const stripe = require("stripe")("sk_test_EO8zl6KiktFv1mygvxCLOeHX00iTGhjQZ4");
-router.use(require("body-parser").text());
+const stripe = require("stripe");
 
-router.post("/", async (req, res) => {
-  try {
-    let { status } = await stripe.charges.create({
-      amount: 2000,
-      currency: "usd",
-      description: "An example charge",
-      source: req.body
-    });
-
-    res.json({ status });
-  } catch (err) {
-    res.status(500).end();
+const postStripeCharge = res => (stripeErr, stripeRes) => {
+  if (stripeErr) {
+    res.status(500).send({ error: stripeErr });
+  } else {
+    res.status(200).send({ success: stripeRes });
   }
-});
+}
+
+  router.get('/', (req, res) => {
+    res.send({ message: 'Hello Stripe checkout server!', timestamp: new Date().toISOString() })
+  });
+
+  router.post('/', (req, res) => {
+    stripe.charges.create(req.body, postStripeCharge(res));
+  });
+
+ 
+
+
 module.exports = router;
